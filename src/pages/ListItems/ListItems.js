@@ -72,7 +72,7 @@ const ListItems = () => {
             key: 'x',
             render: (id) => (
                 <Space size="middle">
-                    <Button type="primary"><Link to={`/update/${id}`}>Update</Link></Button>
+                    <Button style={{ backgroundColor: '#52c41a', color: 'white', border: '#52c41a' }}><Link to={`/update/${id}`}>Update</Link></Button>
                     <Button type="primary" danger onClick={() => deleteItem(id)}>Delete</Button>
                 </Space>
             ),
@@ -84,15 +84,15 @@ const ListItems = () => {
             <Title type="success" style={{ margin: '20px 0 20px 0' }}>Items Information List</Title>
             <Space align="center" direction="vertical">
                 <Button
-                    type="dashed"
+                    type="primary"
                     size={size}
-                    style={{ margin: '0 0 20px 0', color: 'green', fontWeight: 'bold', borderColor: '#52c41a' }}
+                    style={{ margin: '0 0 20px 0', fontWeight: 'bold' }}
                 >
                     <Link to="/createItem">+ Create Item</Link>
                 </Button>
             </Space>
             <Row justify="center">
-                <Col span={18}>
+                <Col md={18} xs={24}>
                     {
                         loading ? (
                             "Loading"
@@ -102,6 +102,9 @@ const ListItems = () => {
                                 dataSource={items}
                                 pagination={{ pageSize: 5 }}
                                 bordered={true}
+                                scroll={{
+                                    x: 600,
+                                }}
                             />
                         )
                     }
