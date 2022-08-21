@@ -8,11 +8,11 @@ const { Title } = Typography;
 const UpdateItem = () => {
     const id = useParams();
     const [item, setItem] = useState({});
-    const [itemName, setItemName] = useState(`${item?.itemName}`);
-    const [itemType, setItemType] = useState(`${item?.itemType}`);
-    const [stockLimit, setStockLimit] = useState(`${item?.stockLimit}`);
-    const [subCategory, setSubCategory] = useState(`${item?.subCategory}`);
-    const [uniName, setUniName] = useState(`${item?.uniName}`);
+    const [itemName, setItemName] = useState('');
+    const [itemType, setItemType] = useState('');
+    const [stockLimit, setStockLimit] = useState('');
+    const [subCategory, setSubCategory] = useState([]);
+    const [uniName, setUniName] = useState([]);
     const [form] = Form.useForm();
     const [success, setSuccess] = useState(false);
 
@@ -20,9 +20,8 @@ const UpdateItem = () => {
         const updatedItem = { itemName, itemType, stockLimit, subCategory, uniName };
         axios.patch(`https://tranquil-beach-10309.herokuapp.com/item/${id.itemId}`, updatedItem)
             .then(res => {
-                if (res.data) {
+                if (res) {
                     setSuccess(true);
-                    console.log(res.data)
                 }
             })
     }
@@ -32,7 +31,7 @@ const UpdateItem = () => {
             res => setItem(res.data)
         );
     }, [id.itemId]);
-    
+
     const onReset = () => {
         form.resetFields();
     };
@@ -50,7 +49,7 @@ const UpdateItem = () => {
                             },
                         ]}
                     >
-                        <Input onBlur={(e) => setItemName(e.target.value)} placeholder={item.itemName} value={item.itemName} />
+                        <Input onBlur={(e) => setItemName(e.target.value)} placeholder={item.itemName} />
                     </Form.Item>
                     <Form.Item
                         label="Item Type"
@@ -60,7 +59,7 @@ const UpdateItem = () => {
                             },
                         ]}
                     >
-                        <Input onBlur={(e) => setItemType(e.target.value)} placeholder={item.itemType} value={item.itemType} />
+                        <Input onBlur={(e) => setItemType(e.target.value)} placeholder={item.itemType} />
                     </Form.Item>
                     <Form.Item
                         label="Stock Limit"
@@ -70,24 +69,33 @@ const UpdateItem = () => {
                             },
                         ]}
                     >
-                        <Input onBlur={(e) => setStockLimit(e.target.value)} placeholder={item.stockLimit} value={item.stockLimit} />
+                        <Input onBlur={(e) => setStockLimit(e.target.value)} placeholder={item.stockLimit} />
                     </Form.Item>
-                    <Form.Item label="Sub Category Name">
+                    <Form.Item
+                        label="Sub Category Name"
+                        rules={[
+                            {
+                                required: true,
+                                type: 'array',
+                            },
+                        ]}
+                    >
                         <Select
                             mode="multiple"
-                            onBlur={setSubCategory}
-                            placeholder="Select Sub Category">
-                            {
-                                item?.subCategory?.map(it =>
-                                    <Option key={it} value={it}>{it}</Option>
-                                )
-                            }
+                            onChange={setSubCategory}
+                            placeholder="Select Sub Category"
+                        >
+                            <Option value="XXL">XXL</Option>
+                            <Option value="XL">XL</Option>
+                            <Option value="L">L</Option>
+                            <Option value="M">M</Option>
+                            <Option value="S">S</Option>
                         </Select>
                     </Form.Item>
                     <Form.Item
                         label="Unit Name"
                     >
-                        <Input onBlur={(e) => setUniName(e.target.value)} value={item.uniName} />
+                        <Input onBlur={(e) => setUniName(e.target.value)} placeholder={item.uniName} />
                     </Form.Item>
                     <Form.Item>
                         <Button style={{ backgroundColor: '#52c41a', color: 'white', border: '#52c41a' }} htmlType="submit">
@@ -103,7 +111,7 @@ const UpdateItem = () => {
                         </Button>
                     </Form.Item>
                 </Form>
-                {success && <Alert message="New Item Added Successfully" type="success" showIcon />}
+                {success && <Alert message="New Item Updated Successfully" type="success" showIcon />}
             </Col>
         </Row>
     );
