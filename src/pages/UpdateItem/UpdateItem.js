@@ -6,38 +6,33 @@ const { Option } = Select;
 const { Title } = Typography;
 
 const UpdateItem = () => {
-    const [itemName, setItemName] = useState('');
-    const [itemType, setItemType] = useState('');
-    const [stockLimit, setStockLimit] = useState('');
-    const [subCategory, setSubCategory] = useState([]);
-    const [uniName, setUniName] = useState([]);
     const id = useParams();
     const [item, setItem] = useState({});
-    const [loading, setloading] = useState(true);
+    const [itemName, setItemName] = useState(`${item?.itemName}`);
+    const [itemType, setItemType] = useState(`${item?.itemType}`);
+    const [stockLimit, setStockLimit] = useState(`${item?.stockLimit}`);
+    const [subCategory, setSubCategory] = useState(`${item?.subCategory}`);
+    const [uniName, setUniName] = useState(`${item?.uniName}`);
     const [form] = Form.useForm();
     const [success, setSuccess] = useState(false);
 
-    useEffect(() => {
-        getItem();
-    }, []);
-
-    const getItem = async () => {
-        setloading(false);
-        await axios.get(`https://tranquil-beach-10309.herokuapp.com/item/${id.itemId}`).then(
-            res => setItem(res.data)
-        );
-    };
-
-    const handleUpdatedItem = e => {
+    const handleUpdatedItem = () => {
         const updatedItem = { itemName, itemType, stockLimit, subCategory, uniName };
-        axios.patch("https://tranquil-beach-10309.herokuapp.com/item", updatedItem)
+        axios.patch(`https://tranquil-beach-10309.herokuapp.com/item/${id.itemId}`, updatedItem)
             .then(res => {
                 if (res.data) {
                     setSuccess(true);
+                    console.log(res.data)
                 }
             })
     }
 
+    useEffect(() => {
+        axios.get(`https://tranquil-beach-10309.herokuapp.com/item/${id.itemId}`).then(
+            res => setItem(res.data)
+        );
+    }, [id.itemId]);
+    
     const onReset = () => {
         form.resetFields();
     };
