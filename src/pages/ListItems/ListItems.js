@@ -1,4 +1,4 @@
-import { Space, Table, Row, Col, Button, Typography } from 'antd';
+import { Space, Table, Row, Col, Button, Typography, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -94,9 +94,9 @@ const ListItems = () => {
             <Row justify="center">
                 <Col md={18} xs={24}>
                     {
-                        loading ? (
-                            "Loading"
-                        ) : (
+                        loading ?
+                            <Spin size="large" />
+                            :
                             <Table
                                 columns={columns}
                                 dataSource={items}
@@ -106,7 +106,6 @@ const ListItems = () => {
                                     x: 600,
                                 }}
                             />
-                        )
                     }
                 </Col>
             </Row>
