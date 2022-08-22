@@ -91,12 +91,13 @@ const UpdateItem = () => {
                                     mode="multiple"
                                     onChange={setSubCategory}
                                     placeholder="Select Sub Category"
+                                    defaultValue={item.subCategory}
                                 >
-                                    <Option value="XXL">XXL</Option>
-                                    <Option value="XL">XL</Option>
-                                    <Option value="L">L</Option>
-                                    <Option value="M">M</Option>
-                                    <Option value="S">S</Option>
+                                    {
+                                        item?.subCategory?.map(sub =>
+                                            <Option key={sub} value={sub}>{sub}</Option>
+                                        )
+                                    }
                                     {newSub && <Option value={newSub}>{newSub}</Option>}
                                 </Select>
                             </Form.Item>
@@ -127,14 +128,19 @@ const UpdateItem = () => {
                                     },
                                 ]}
                             >
-                                <Select
-                                    mode="multiple"
-                                    onChange={setUniName}
-                                    placeholder="Select Unit Name"
-                                >
-                                    <Option value="Piece">Piece</Option>
-                                    {newUnit && <Option value={newUnit}>{newUnit}</Option>}
-                                </Select>
+                                {
+                                    item?.uniName?.map(unit =>
+                                        <Select
+                                            mode="multiple"
+                                            onChange={setUniName}
+                                            placeholder="Select Unit Name"
+                                            defaultValue={unit}
+                                        >
+                                            <Option value={unit}>{unit}</Option>
+                                            {newUnit && <Option value={newUnit}>{newUnit}</Option>}
+                                        </Select>
+                                    )
+                                }
                             </Form.Item>
                         </Col>
                         <Col span={4}>
