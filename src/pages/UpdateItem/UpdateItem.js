@@ -91,7 +91,7 @@ const UpdateItem = () => {
                                     mode="multiple"
                                     onChange={setSubCategory}
                                     placeholder="Select Sub Category"
-                                    defaultValue={item.subCategory}
+                                    defaultValue={item?.subCategory}
                                 >
                                     {
                                         item?.subCategory?.map(sub =>
